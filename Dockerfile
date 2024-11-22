@@ -1,17 +1,16 @@
-# Usa una imagen base de Python
+# Usa una imagen base de Python 3.11
 FROM python:3.11-slim
 
-# Instala las dependencias del sistema necesarias para mysqlclient
-RUN apt-get update && apt-get install -y \
-    default-libmysqlclient-dev \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# Instala dependencias del sistema necesarias para MySQL
+RUN apt-get update && \
+    apt-get install -y default-libmysqlclient-dev gcc && \
+    rm -rf /var/lib/apt/lists/*
 
-# Establece el directorio de trabajo en el contenedor
+# Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copia los archivos de tu aplicación a /app
-COPY . /app
+# Copia los archivos de la aplicación a /app
+COPY . .
 
 # Instala las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
@@ -20,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Comando para ejecutar la aplicación
-CMD ["python", "app.py"]
+CMD ["python", "main.py"]
