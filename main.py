@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -24,11 +25,11 @@ def insert_data():
     valor_sensor = data.get('valor_sensor')
     if valor_sensor is None or nombre_sensor is None:
         return jsonify({'error': 'No se proporcionó el nombre o valor del sensor'}), 400
-
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # Conectar con MySQL e insertar el dato
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO medicinav1 (nombre_sensor,valor) VALUES (%s,%s)", (nombre_sensor,valor_sensor,))
+        cursor.execute("INSERT INTO medicinav1 (nombre_sensor,valor,current_time) VALUES (%s,%s.%s)", (nombre_sensor,valor_sensor,timestamp))
         mysql.connection.commit()
         cursor.close()
         return jsonify({'message': 'Datos insertados correctamente'}), 201
