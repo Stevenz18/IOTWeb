@@ -29,7 +29,7 @@ def insert_data():
     # Conectar con MySQL e insertar el dato
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO medicinav1 (nombre_sensor,valor,current_time) VALUES (%s,%s.%s)", (nombre_sensor,valor_sensor,timestamp))
+        cursor.execute("INSERT INTO medicinav1 (nombre_sensor,valor,current_time) VALUES (%s,%s.%s)", (nombre_sensor,valor_sensor,current_time))
         mysql.connection.commit()
         cursor.close()
         return jsonify({'message': 'Datos insertados correctamente'}), 201
